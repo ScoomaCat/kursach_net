@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AppointmentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: AppointmentRepository::class)]
 class Appointment
@@ -29,6 +30,9 @@ class Appointment
 
     #[ORM\Column(type: 'integer')]
     private ?int $cabinet;
+
+    #[ORM\ManyToOne(targetEntity: AppointmentStatus::class)]
+    private ?AppointmentStatus $status;
 
     public function getId(): ?int
     {
@@ -93,5 +97,37 @@ class Appointment
         $this->cabinet = $cabinet;
 
         return $this;
+    }
+
+    public function getStatus(): ?AppointmentStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?AppointmentStatus $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    #[Pure] public function isConfirmed(): bool
+    {
+        return $this->getStatus() && $this->getStatus()->getId() === AppointmentStatus::STATUS_CONFIRMED_ID;
+    }
+
+    #[Pure] public function isUnconfirmed(): bool
+    {
+        return $this->getStatus() && $this->getStatus()->getId() === AppointmentStatus::STATUS_NOT_CONFIRMED_ID;
+    }
+
+    #[Pure] public function isCancelled(): bool
+    {
+        return $this->getStatus() && $this->getStatus()->getId() === AppointmentStatus::STATUS_CANCELLED_ID;
+    }
+
+    #[Pure] public function isCompleted(): bool
+    {
+        return $this->getStatus() && $this->getStatus()->getId() === AppointmentStatus::STATUS_COMPLETED_ID;
     }
 }

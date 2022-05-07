@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Appointment;
+use App\Entity\AppointmentStatus;
 use App\Form\AppointmentType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,6 +23,11 @@ class AppointmentController extends AbstractController
             /** @var Appointment $appointment */
             $appointment = $form->getData();
             $appointment->setCustomer($this->getUser());
+            $appointment->setStatus(
+                $entityManager
+                    ->getRepository(AppointmentStatus::class)
+                    ->find(AppointmentStatus::STATUS_NOT_CONFIRMED_ID)
+            );
 
             $entityManager->persist($appointment);
             $entityManager->flush();
@@ -36,8 +42,8 @@ class AppointmentController extends AbstractController
         ]);
     }
 
-    #[Route('/appointment/delete/{id}', name: 'app_appointment_delete', requirements: ['id' => '\d+'])]
-    public function delete(Request $request, EntityManagerInterface $entityManager, int $id): Response
+    #[Route('/appointment/cancel/{id}', name: 'app_appointment_cancel', requirements: ['id' => '\d+'])]
+    public function cancel(Request $request, EntityManagerInterface $entityManager, int $id): Response
     {
         $referer = $request->headers->get('referer') ?: $this->generateUrl('app_user');
         /** @var Appointment $appointment */
@@ -55,10 +61,20 @@ class AppointmentController extends AbstractController
             return $this->redirect($referer);
         }
 
-        $entityManager->remove($appointment);
+        if ($appointment->isCancelled() || $appointment->isConfirmed()) {
+            $this->addFlash('danger', 'Can not cancel appointment at this stage!');
+
+            return $this->redirect($referer);
+        }
+
+        $appointment->setStatus(
+            $entityManager->getRepository(AppointmentStatus::class)
+                ->find(AppointmentStatus::STATUS_CANCELLED_ID)
+        );
+
         $entityManager->flush();
 
-        $this->addFlash('success', 'Successfully deleted your appointment!');
+        $this->addFlash('success', 'Successfully cancelled your appointment!');
 
         return $this->redirect($referer);
     }

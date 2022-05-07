@@ -8,23 +8,42 @@
             <h1>My account: </h1>
             {{ form(form) }}
         </div>
-        <div class="mx-auto">
+        <div class="mx-auto mt-5">
             <h1>My appointments: </h1>
-
             <div class="row gx-4 gx-lg-5">
 
                 {% for appointment in app.user.appointments %}
                     <div class="col-md-4 mb-3">
                         <div class="card py-4 h-100">
-                            <div class="card-body text-center">
-                                <i class="fa-solid fa-calendar-check text-primary mb-2"></i>
-                                <h4 class="text-uppercase m-0">{{ appointment.date|date("F jS \\a\\t g:ia") }}</h4>
-                                <div class="">{{ appointment.master }}</div>
-                                <div class="small text-black-50">
-                                    {{ appointment.comment }}
+                            <div class="card-body text-center d-flex">
+                                <div class="my-auto mx-auto">
+                                    <i class="fa-solid fa-calendar-check text-primary mb-2"></i>
+                                    <h4 class="text-uppercase m-0">{{ appointment.date|date("F jS \\a\\t g:ia") }}</h4>
+                                    <div class="">{{ appointment.master }}</div>
+                                    <div class="small text-black-50">
+                                        {{ appointment.comment }}
+                                    </div>
+                                    <div>
+                                        {% if appointment.isConfirmed %}
+                                            <span class="badge bg-success">{{ appointment.status }}</span>
+                                        {% elseif appointment.isUnconfirmed %}
+                                            <span class="badge bg-secondary">{{ appointment.status }}</span>
+                                        {% elseif appointment.isCancelled %}
+                                            <span class="badge bg-danger">{{ appointment.status }}</span>
+                                        {% else %}
+                                            <span class="badge bg-dark">{{ appointment.status }}</span>
+                                        {% endif %}
+                                    </div>
+
+                                    {% if not appointment.isCancelled and not appointment.isCompleted %}
+                                        <hr class="my-4 mx-auto"/>
+                                        <a class="btn btn-danger btn-sm"
+                                           href="{{ path('app_appointment_cancel', {id: appointment.id}) }}"
+                                        >
+                                            Cancel
+                                        </a>
+                                    {% endif %}
                                 </div>
-                                <hr class="my-4 mx-auto"/>
-                                <a class="btn btn-danger btn-sm" href="{{ path('app_appointment_delete', {id: appointment.id}) }}">Cancel</a>
                             </div>
                         </div>
                     </div>
