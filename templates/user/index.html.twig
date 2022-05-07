@@ -12,40 +12,23 @@
             <h1>My appointments: </h1>
 
             <div class="row gx-4 gx-lg-5">
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <div class="card py-4 h-100">
-                        <div class="card-body text-center">
-                            <i class="fa-solid fa-calendar-check text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">11.11.2011 17:00</h4>
-                            <div class="">Master Diluc</div>
-                            <div class="small text-black-50">Comment comment comment comment comment comment comment
-                                comment comment comment comment comment comment comment comment
+
+                {% for appointment in app.user.appointments %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fa-solid fa-calendar-check text-primary mb-2"></i>
+                                <h4 class="text-uppercase m-0">{{ appointment.date|date("F jS \\a\\t g:ia") }}</h4>
+                                <div class="">{{ appointment.master }}</div>
+                                <div class="small text-black-50">
+                                    {{ appointment.comment }}
+                                </div>
+                                <hr class="my-4 mx-auto"/>
+                                <a class="btn btn-danger btn-sm" href="{{ path('app_appointment_delete', {id: appointment.id}) }}">Cancel</a>
                             </div>
-                            <hr class="my-4 mx-auto"/>
-                            <a class="btn btn-danger btn-sm">Cancel</a>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <div class="card py-4 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-envelope text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">Email</h4>
-                            <hr class="my-4 mx-auto"/>
-                            <div class="small text-black-50"><a href="#!">hello@yourdomain.com</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <div class="card py-4 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-mobile-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">Phone</h4>
-                            <hr class="my-4 mx-auto"/>
-                            <div class="small text-black-50">+1 (555) 902-8832</div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
 

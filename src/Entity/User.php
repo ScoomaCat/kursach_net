@@ -36,6 +36,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'master', targetEntity: Appointment::class)]
     private $masterAppointments;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $firstName;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $lastName;
+
     public function __construct()
     {
         $this->appointments = new ArrayCollection();
@@ -174,6 +180,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Pure] public function __toString(): string
     {
-        return $this->getEmail();
+        return $this->getFirstName() . ' ' . $this->getLastName();
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
     }
 }

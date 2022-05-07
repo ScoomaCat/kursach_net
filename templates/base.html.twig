@@ -30,6 +30,7 @@
                     {% if app.user %}
                         <li class="nav-item"><a class="nav-link" href={{ path('app_user') }}>Profile</a></li>
                         <li class="nav-item"><a class="nav-link" href={{ path('app_appointment') }}>Make an appointment</a></li>
+                        <li class="nav-item"><a class="nav-link" href={{ path('app_logout') }}>Log out</a></li>
                     {% else %}
                         <li class="nav-item"><a class="nav-link" href={{ path('login') }}>Log in</a></li>
                         <li class="nav-item"><a class="nav-link" href={{ path('app_register') }}>Register</a></li>
@@ -39,6 +40,14 @@
         </div>
     </nav>
     <div class="bg-light main-page-body" style="padding-top: 60px;">
+        {% for type, flash in app.flashes %}
+            {% for message in flash %}
+                <div class="alert alert-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         {% block body %}{% endblock %}
     </div>
     <!-- Contact-->
