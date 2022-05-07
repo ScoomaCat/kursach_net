@@ -16,7 +16,7 @@
     </head>
     <body id="page-top">
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-black" id="mainNav">
         <div class="container px-4 px-lg-5">
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu
@@ -24,14 +24,21 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#signup">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href={{ path('app_index') }}>Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href={{ path('app_gallery') }}>Portfolio</a></li>
+
+                    {% if app.user %}
+                        <li class="nav-item"><a class="nav-link" href={{ path('app_user') }}>Profile</a></li>
+                        <li class="nav-item"><a class="nav-link" href={{ path('app_appointment') }}>Make an appointment</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href={{ path('login') }}>Log in</a></li>
+                        <li class="nav-item"><a class="nav-link" href={{ path('app_register') }}>Register</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="bg-grey-gradient main-page-body" style="padding-top: 60px;">
+    <div class="bg-light main-page-body" style="padding-top: 60px;">
         {% block body %}{% endblock %}
     </div>
     <!-- Contact-->

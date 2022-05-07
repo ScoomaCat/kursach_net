@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello GalleryController!{% endblock %}
+
+{% block body %}
+    <!-- Projects-->
+    <div id="projects">
+        <div class="container px-4 px-lg-5">
+            <!-- Featured Project Row-->
+            <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
+                <div class="col-xl-8 col-lg-7"><img class="img-fluid mb-3 mb-lg-0" src="assets/img/ex2.jpg" alt="..."/>
+                </div>
+                <div class="col-xl-4 col-lg-5">
+                    <div class="featured-text text-center text-lg-left">
+                        <h4>Watch some of out stuff!</h4>
+                        <p class="text-black-50 mb-0">
+                            While tattoos are not as edgy as they used to be—seems like everyone has a tat these
+                            days—they’re still primarily a mark of creativity, confidence and cool. You have to be
+                            confident to get permanently inked, and know exactly what you want.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Project One Row-->
+            <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
+                <div class="col-lg-6"><img class="img-fluid w-100" src="assets/img/ex1.jpg" alt="..."/></div>
+                <div class="col-lg-6">
+                    <div class="bg-black text-center h-100 project">
+                        <div class="d-flex h-100">
+                            <div class="project-text w-100 my-auto text-center text-lg-left">
+                                <h4 class="text-white">Misty</h4>
+                                <p class="mb-0 text-white-50">
+                                    As tattoos have grown in popularity, the focus has turned to the artists, as their
+                                    work is spotlighted in tv shows and even gallery exhibitions. Celebrities flock to
+                                    certain tattoo artists for their signature styles. Much like graffiti, a
+                                    once-illegal artistic expression (yes, illegal in NYC until 1997) has become a part
+                                    of popular culture.
+                                </p>
+                                <hr class="d-none d-lg-block mb-0 ms-0"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Project Two Row-->
+            <div class="row gx-0 justify-content-center">
+                <div class="col-lg-6"><img class="img-fluid" src="assets/img/ex3.jpg" alt="..."/></div>
+                <div class="col-lg-6 order-lg-first">
+                    <div class="bg-black text-center h-100 project">
+                        <div class="d-flex h-100">
+                            <div class="project-text w-100 my-auto text-center text-lg-right">
+                                <h4 class="text-white">Skelly</h4>
+                                <p class="mb-0 text-white-50">
+                                    All great museums leave a lasting impression on your mind, but this may be the only
+                                    one that also marks your skin for eternity.
+                                </p>
+                                <hr class="d-none d-lg-block mb-0 me-0"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="btn btn-primary my-5 mx-auto" href="#about">I want to be pinched with needles!</a>
+        </div>
+    </div>
+{% endblock %}
