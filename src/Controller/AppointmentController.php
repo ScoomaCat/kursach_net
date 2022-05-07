@@ -22,6 +22,7 @@ class AppointmentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Appointment $appointment */
             $appointment = $form->getData();
+
             $appointment->setCustomer($this->getUser());
             $appointment->setStatus(
                 $entityManager
@@ -61,7 +62,7 @@ class AppointmentController extends AbstractController
             return $this->redirect($referer);
         }
 
-        if ($appointment->isCancelled() || $appointment->isConfirmed()) {
+        if ($appointment->isCancelled() || $appointment->isCompleted()) {
             $this->addFlash('danger', 'Can not cancel appointment at this stage!');
 
             return $this->redirect($referer);

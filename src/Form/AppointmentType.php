@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Appointment;
+use App\Entity\User;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -24,7 +27,13 @@ class AppointmentType extends AbstractType
             ->add('cabinet', ChoiceType::class, [
                 'choices' => [1, 2, 3, 4, 5],
             ])
-            ->add('master')
+            ->add('master', EntityType::class, [
+                'class' => User::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->where('u.isMaster = true');
+                },
+            ])
             ->add('Save', SubmitType::class)
         ;
     }

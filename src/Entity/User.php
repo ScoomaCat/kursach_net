@@ -42,7 +42,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $lastName;
 
-    public function __construct()
+    #[ORM\Column(type: 'boolean')]
+    private bool $isMaster = false;
+
+    #[Pure] public function __construct()
     {
         $this->appointments = new ArrayCollection();
         $this->masterAppointments = new ArrayCollection();
@@ -203,6 +206,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getIsMaster(): ?bool
+    {
+        return $this->isMaster;
+    }
+
+    public function setIsMaster(bool $isMaster): self
+    {
+        $this->isMaster = $isMaster;
 
         return $this;
     }

@@ -3,121 +3,81 @@
 {% block title %}Hello AdminController!{% endblock %}
 
 {% block body %}
-    <table class="table">
+    <h1>Admin dashboard</h1>
+
+    <h2>Appointments: </h2>
+    <table class="table table-striped">
         <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-        </tr>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Master</th>
+                <th scope="col">Comment</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+            </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-        </tr>
+            {% for appointment in appointments %}
+                <tr>
+                    <th scope="row">{{ appointment.date|date("F jS \\a\\t g:ia") }}</th>
+                    <td>{{ appointment.customer }}</td>
+                    <td>{{ appointment.master }}</td>
+                    <td>{{ appointment.comment }}</td>
+                    <td>
+                        {% if appointment.isConfirmed %}
+                            <span class="badge badge-success">{{ appointment.status }}</span>
+                        {% elseif appointment.isUnconfirmed %}
+                            <span class="badge badge-secondary">{{ appointment.status }}</span>
+                        {% elseif appointment.isCancelled %}
+                            <span class="badge badge-danger">{{ appointment.status }}</span>
+                        {% else %}
+                            <span class="badge badge-dark">{{ appointment.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not appointment.isCancelled and not appointment.isCompleted %}
+                            <a class="btn btn-danger btn-sm"
+                               href="{{ path('app_appointment_cancel', {id: appointment.id}) }}"
+                            >
+                                Cancel
+                            </a>
+                        {% endif %}
+                        {% if appointment.isUnconfirmed %}
+                            <a class="btn btn-success btn-sm"
+                               href="{{ path('app_admin_appointment_confirm', {id: appointment.id}) }}"
+                            >
+                                Confirm
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
-
-    <div style="width: 800px;">
-        <canvas id="myChart" width="400" height="400"></canvas>
-
-        <canvas id="line-chart" width="800" height="450"></canvas>
-    </div>
+    <h2 class="mt-5">Appointments for the last week: </h2>
+    <canvas id="line-chart" width="800" height="450" style="max-height: 450px;"></canvas>
     <script>
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
         new Chart(document.getElementById("line-chart"), {
             type: 'line',
             data: {
-                labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
+                labels: [{% for date, value in appointments_by_date %}'{{ date }}',{% endfor %}],
                 datasets: [{
-                    data: [86,114,106,106,107,111,133,221,783,2478],
-                    label: "Africa",
+                    data: [{% for date, value in appointments_by_date %}{{ value }},{% endfor %}],
+                    label: "Appointments",
                     borderColor: "#3e95cd",
                     fill: false
-                }, {
-                    data: [282,350,411,502,635,809,947,1402,3700,5267],
-                    label: "Asia",
-                    borderColor: "#8e5ea2",
-                    fill: false
-                }, {
-                    data: [168,170,178,190,203,276,408,547,675,734],
-                    label: "Europe",
-                    borderColor: "#3cba9f",
-                    fill: false
-                }, {
-                    data: [40,20,10,16,24,38,74,167,508,784],
-                    label: "Latin America",
-                    borderColor: "#e8c3b9",
-                    fill: false
-                }, {
-                    data: [6,3,2,2,7,26,82,172,312,433],
-                    label: "North America",
-                    borderColor: "#c45850",
-                    fill: false
-                }
+                },
                 ]
             },
             options: {
                 title: {
                     display: true,
-                    text: 'World population per region (in millions)'
+                    text: 'Appointments per day for the last week'
                 }
             }
         });
 
     </script>
-
-
 {% endblock %}

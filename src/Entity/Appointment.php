@@ -22,7 +22,7 @@ class Appointment
     #[ORM\JoinColumn(nullable: false)]
     private ?User $master;
 
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $date;
 
     #[ORM\Column(type: 'string', length: 10000, nullable: true)]
