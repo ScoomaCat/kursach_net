@@ -6,7 +6,7 @@ use App\Repository\AppointmentStatusRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
-#[ORM\Entity(repositoryClass: AppointmentStatusRepository::class)]
+#[ORM\Entity()]
 class AppointmentStatus
 {
     public const STATUS_NOT_CONFIRMED_ID = 1;

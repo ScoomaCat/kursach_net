@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class AppointmentType extends AbstractType
 {
@@ -33,6 +35,9 @@ class AppointmentType extends AbstractType
                     return $er->createQueryBuilder('u')
                         ->where('u.isMaster = true');
                 },
+                'constraints' => [
+                    new NotBlank(),
+                ],
             ])
             ->add('Save', SubmitType::class)
         ;
