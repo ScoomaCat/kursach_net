@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css">
         <!-- Custom styles for this template -->
         <link href="../assets/css/dashboard.css" rel="stylesheet">
+        <link href="../../assets/css/dashboard.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
@@ -45,6 +46,12 @@
                                     <a class="nav-link" href="{{ path('app_admin_users') }}">
                                         <span data-feather="users"></span>
                                         Users
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app_admin_pages') }}">
+                                        <span data-feather="users"></span>
+                                        Pages
                                     </a>
                                 </li>
                             </ul>

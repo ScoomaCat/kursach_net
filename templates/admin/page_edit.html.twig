@@ -1,0 +1,9 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Page edit/create{% endblock %}
+
+{% block body %}
+    <h1> {% if page.id %}Edit{% else%}Create{% endif %} page</h1>
+
+    {{ form(form) }}
+{% endblock %}

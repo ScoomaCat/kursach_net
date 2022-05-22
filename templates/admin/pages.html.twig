@@ -1,0 +1,39 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Pages{% endblock %}
+
+{% block body %}
+    <h1>Manage pages</h1>
+
+    <a class="btn btn-success btn-sm" href="{{ path('app_admin_page_edit') }}">
+        Add
+    </a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Url</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for page in pages %}
+                <tr>
+                    <th scope="row">{{ page.id }}</th>
+                    <td>{{ page.title }}</td>
+                    <td>/pages/{{ page.url }}</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="{{ path('app_admin_page_edit', {id: page.id}) }}">
+                            Edit
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="{{ path('app_admin_delete_page', {id: page.id}) }}">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
