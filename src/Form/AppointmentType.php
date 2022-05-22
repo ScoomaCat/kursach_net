@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
@@ -23,7 +24,14 @@ class AppointmentType extends AbstractType
     {
         $builder
             ->add('date', DateTimeType::class, [
-                'widget' => 'single_text',
+                'date_widget' => 'single_text',
+                'time_widget' => 'choice',
+                'attr' => [
+                    'class' => 'd-flex',
+                ],
+                'constraints' => [
+                    new GreaterThanOrEqual(new \DateTime()),
+                ],
             ])
             ->add('comment', TextareaType::class)
             ->add('cabinet', ChoiceType::class, [
@@ -39,8 +47,7 @@ class AppointmentType extends AbstractType
                     new NotBlank(),
                 ],
             ])
-            ->add('Save', SubmitType::class)
-        ;
+            ->add('Save', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

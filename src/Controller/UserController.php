@@ -15,10 +15,13 @@ class UserController extends AbstractController
     #[Route('/user', name: 'app_user')]
     public function index(): Response
     {
-        $form = $this->createForm(UserType::class, $this->getUser() ?? new User());
+        $form = $this->createForm(UserType::class, $this->getUser());
+        $appointments = $this->getUser()->getAppointments()->toArray();
+        usort($appointments, fn($a, $b) => $b->getDate() <=> $a->getDate());
 
         return $this->renderForm('user/index.html.twig', [
             'form' => $form,
+            'appointments' => $appointments,
         ]);
     }
 }

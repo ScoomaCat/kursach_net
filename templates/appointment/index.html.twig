@@ -5,7 +5,16 @@
 {% block body %}
     <div class="container px-4 px-lg-5 py-5">
         <div class="mx-auto">
-            {{ form(form) }}
+            {{ form_start(form) }}
+            {{ form_row(form.date) }}
+            {{ form_end(form) }}
         </div>
     </div>
+
+    <script>
+        let date = new Date();
+        let datestring = date.getFullYear() + "-" +   ("0"+(date.getMonth()+1)).slice(-2) + "-" + date.getDate();
+
+        $('#appointment_date_date').attr('min', datestring);
+    </script>
 {% endblock %}
