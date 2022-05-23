@@ -19,9 +19,9 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, ['disabled' => true,])
-            ->add('password', PasswordType::class)
-            ->add('Save', SubmitType::class)
-        ;
+            ->add('firstName')
+            ->add('lastName')
+            ->add('Save', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

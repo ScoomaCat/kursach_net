@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MasterController!{% endblock %}
+
+{% block body %}
+    <div class="container py-5">
+        <h1>My schedule ({{ start|date("F jS") }} - {{ end|date("F jS") }}): </h1>
+        <div class="row d-flex">
+            {% for date, appointments in appointmentsByDates %}
+                <div class="col-md-3 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header d-flex">
+                            <i class="fa-solid fa-calendar-check text-primary mb-2"></i>
+                            <h4 class="text-uppercase ms-5">{{ date|date("F jS l") }}</h4>
+                        </div>
+                        <div class="card-body text-center d-flex">
+                            <div class="mx-auto">
+                                <ul class="list-group">
+                                    {% for appointment in appointments %}
+                                        <li class="
+                                            list-group-item
+                                            list-group-item-action
+                                            d-flex
+                                            justify-content-between
+                                            align-items-center
+                                            small
+                                        {% if appointment.isUnconfirmed or appointment.isCancelled %}list-group-item-light{% endif %}
+                                        ">
+                                            {{ appointment.date|date("g:ia") }} | {{ appointment.customer }}
+
+                                            {% if appointment.isConfirmed %}
+                                                <span class="badge small bg-success ms-3"><i class="fa-solid fa-check"></i></span>
+                                            {% elseif appointment.isUnconfirmed %}
+                                                <span class="badge small bg-secondary ms-3"><i class="fa-solid fa-clock"></i></span>
+                                            {% elseif appointment.isCancelled %}
+                                                <span class="badge small bg-danger ms-3"><i class="fa-solid fa-xmark"></i></span>
+                                            {% else %}
+                                                <span class="badge small bg-dark ms-3"><i class="fa-solid fa-check-double"></i></span>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

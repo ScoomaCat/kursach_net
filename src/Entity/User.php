@@ -210,7 +210,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getIsMaster(): ?bool
+    public function isMaster(): ?bool
     {
         return $this->isMaster;
     }

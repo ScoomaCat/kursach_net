@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Appointment;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -47,22 +49,39 @@ class AppointmentRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Appointment[] Returns an array of Appointment objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findForCurrentWeek(User $master): array
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+        $result = [];
+        $weekStart = new \DateTime('monday this week');
+        $weekEnd = new \DateTime('saturday this week');
+
+        $period = new \DatePeriod(
+            $weekStart,
+            new \DateInterval('P1D'),
+            $weekEnd
+        );
+
+        foreach ($period as $key => $value) {
+            $result[$value->format('Y-m-d')] = [];
+        }
+
+        $appointments = $this->createQueryBuilder('a')
+            ->andWhere('a.date >= :date')
+            ->andWhere('a.date <= :dateEnd')
+            ->setParameter('date', $weekStart)
+            ->setParameter('dateEnd', $weekEnd)
+            ->andWhere('a.master = :master')
+            ->setParameter('master', $master)
+            ->orderBy('a.date', Criteria::DESC)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+
+        foreach ($appointments as $appointment) {
+            $result[$appointment->getDate()->format('Y-m-d')][] = $appointment;
+        }
+
+        return $result;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Appointment

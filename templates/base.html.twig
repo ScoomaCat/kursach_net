@@ -51,8 +51,13 @@
                         {% endif %}
                         {% if app.user %}
                             <li class="nav-item"><a class="nav-link" href={{ path('app_user') }}>Profile</a></li>
-                            <li class="nav-item"><a class="nav-link" href={{ path('app_appointment') }}>Make an
-                                    appointment</a></li>
+
+                            {% if app.user.isMaster %}
+                                <li class="nav-item"><a class="nav-link" href={{ path('app_master') }}>My schedule</a></li>
+                            {% else %}
+                                <li class="nav-item"><a class="nav-link" href={{ path('app_appointment') }}>Make an
+                                        appointment</a></li>
+                            {% endif %}
                             <li class="nav-item"><a class="nav-link" href={{ path('app_logout') }}>Log out</a></li>
                         {% else %}
                             <li class="nav-item"><a class="nav-link" href={{ path('login') }}>Log in</a></li>
